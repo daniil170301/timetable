@@ -23,9 +23,13 @@ carousel.querySelector('.next').onclick = function() {
   list.style.marginLeft = position + 'vw';
 };
 
-addPairsList($('li:first')); // Для теста сгенерировал на 1 листе
+$('.add_subgroup').click(function () {
+    console.log($(this).parent('li'));
+    $(this).parent('li').before('<li>' + addPairsList(null, true) + '</li>');
+    listElems = carousel.querySelectorAll('li');
+});
 
-function addPairsList($li) {
+function addPairsList($li=null, get=false) {
     let pairs = '',
         lesson = '<select class="lesson">',
         teacher = '<select class="teacher">',
@@ -56,5 +60,8 @@ function addPairsList($li) {
     elements += '<div class="column sat">' + pairs + '</div>';
 
     elements += '</div>';
+
+    if (get) return elements;
+
     $li.append(elements);
 }

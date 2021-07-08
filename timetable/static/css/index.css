@@ -123,6 +123,11 @@ input[type=text]:focus, textarea {
   border-right: 1px solid black;
 }
 
+.add_subgroup {
+  width: 91vw;
+  height: 100%;
+}
+
 .switch {
   border: none;
   background-color: #242729;
@@ -153,7 +158,7 @@ input[type=text]:focus, textarea {
 
 .column {
   display: grid;
-  grid-auto-rows: repeat(8, 1fr);
+  grid-template-rows: repeat(8, 1fr);
   background-color: #a1fbd2;
   margin: 3px;
   padding-right: 3px;
