@@ -1,0 +1,196 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body{
+  background-color: #eff2fa;
+}
+
+/*--- Навбар ---*/
+
+.container_navbar {
+  background-color: #242729;
+  padding-bottom: 4px;
+  padding-top: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin-bottom: 5px;
+}
+
+.navbar {
+  display: grid;
+  grid-template-columns: 0.5fr 0.5fr 0.3fr 3fr 1fr 1fr 1fr;
+}
+
+/* Стили кнопок из навбара */
+
+input[type=button] {
+  border:none;
+  background-color: #242729;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 16px;
+}
+input[type=button]:hover {
+  background-color: #565c60;
+  transition-duration: 0.7s;
+}
+input[type=button]:active {
+  background-color: #eff2fa;
+  transition-duration: 0.2s;
+  color: #242729;
+}
+
+/* Стили форм из навбара*/
+
+input[type=text] {
+  box-sizing: content-box;
+  border: none;
+  line-height: 2.25em;
+  text-decoration: none;
+  padding-left: 4px;
+}
+
+input[type=text]:focus {
+  outline: none;
+  transition-duration: 0.3s;
+}
+
+input[type=text], textarea {
+  background-color: #ececed;
+}
+
+input[type=text]:hover, textarea {
+  background-color: #eff2fa;
+  transition-duration: 0.9s;
+}
+
+input[type=text]:focus, textarea {
+  background-color: #ffffff;
+  transition-duration: 0.2s;
+}
+
+/* --- Поле с парами ---*/
+
+.container_field {
+  min-height: 95vh;
+  display: grid;
+  grid-template-columns: 100px 1fr;
+}
+
+/*-- столбик с временными промежутками --*/
+.time_column {
+  background-color: #ececed;
+  padding-top: 3px;
+  display: grid;
+  grid-template-columns: 1fr;
+  text-align: center;
+}
+
+.time_column:hover {
+  background-color: #eff2fa;
+  transition-duration: 0.5s;
+}
+
+.pair_time {
+  line-height: 10vh;
+}
+
+/*-- Колонки с подгруппами --*/
+.carousel{
+  display: grid;
+  grid-template-columns: 2vw 1fr 2vw;
+}
+.subgroups {
+  width: 100%;
+  overflow: hidden;
+}
+
+.subgroups ul {
+  width: 9999px;
+  list-style: none;
+  transition: margin-left 600ms;
+  font-size: 0;
+}
+
+.subgroups li {
+  display: inline-block;
+  width: 91vw;
+  height: 100%;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+}
+
+.switch {
+  border: none;
+  background-color: #242729;
+  color: #ffffff;
+}
+
+.switch:hover {
+  background-color: #565c60;
+  transition-duration: 0.7s;
+}
+
+.switch:active {
+  background-color: #eff2fa;
+  transition-duration: 0.2s;
+  color: #242729;
+}
+
+/* Стили листа подгруппы */
+
+.pairs-list {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  background-color: #f5c2f7;
+  height: 95vh;
+  padding-left: 3px;
+  padding-right: 3px;
+}
+
+.column {
+  display: grid;
+  grid-auto-rows: repeat(8, 1fr);
+  background-color: #a1fbd2;
+  margin: 3px;
+  padding-right: 3px;
+  padding-left: 3px;
+}
+
+.pair {
+  position: relative;
+  background-color: #ffb8a3;
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+
+.dropdowns-pair {
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
+  height: 100%;
+  width: 100%;
+}
+
+.buttons-pair {
+  margin-left: 3px; /* для видимости бэкграунда ячейки */
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
+
+}
+
+/* wrapper-cell ниже нужен что бы пары были одного размера*/
+
+.wrapper-cell {
+  position: absolute;
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  height: 100%;
+  width: 100%;
+}
+
+.next {
+  padding-left: 10px;
+}

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+
+  <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}"/>
+
+</head>
+
+<body>
+  <!-- навбар -->
+  <div class="container_navbar">
+    <div class="navbar">
+      <input class="navbar_form" type="text" size="10" placeholder="Факультет">
+      <input class="navbar_form" type="text" size="10" placeholder="Направление">
+      <input class="navbar_form" type="text" size="10" placeholder="Курс">
+      <div class="empty_space"></div>
+      <input type="button" value="Создать">
+      <input type="button" value="Загрузить">
+      <input type="button" value="Сохранить">
+    </div>
+  </div>
+  <!-- нижняя сетка -> столбцы -> пары -->
+  <div class="container_field">
+    <!-- колонка с временем пар -->
+    <div class="time_column">
+      <div class="pair_time">8:00-9:30</div>
+      <div class="pair_time">9:40-11:10</div>
+      <div class="pair_time">11:30-13:00</div>
+      <div class="pair_time">13:10-14:40</div>
+      <div class="pair_time">15:00-16:30</div>
+      <div class="pair_time">16:40-18:10</div>
+      <div class="pair_time">18:20-19:50</div>
+      <div class="pair_time">20:00-21:30</div>
+    </div>
+
+    <!-- карусель с подгруппами -->
+    <div class="carousel" id="carousel">
+      <button class="switch prev"><</button>
+
+          <div class="subgroups">
+            <ul>
+              <li></li> <!-- это одна подгруппа -->
+              <li></li> <!-- условно вторая подгруппа -->
+              <li></li> <!-- и третья -->
+            </ul>
+          </div>
+
+          <button class="switch next">></button>
+    </div>
+  </div>
+
+   <script src="{{ url_for('static', filename='js/jquery-3.6.0.js') }}"></script>
+   <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+</body>
+
+</html>
