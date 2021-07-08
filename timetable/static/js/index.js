@@ -23,12 +23,41 @@ carousel.querySelector('.next').onclick = function() {
   list.style.marginLeft = position + 'vw';
 };
 
+
+
+// Кнопки навбара - начало
+$('.create_btn').click(function () {
+    let faculty = $('.faculty_input').val(),
+        direction = $('.direction_input').val(),
+        course = $('.course_input').val();
+    alert(faculty + ' ' + direction + ' ' + course + '\nКнопка создать');
+});
+
+$('.load_btn').click(function () {
+    let faculty = $('.faculty_input').val(),
+        direction = $('.direction_input').val(),
+        course = $('.course_input').val();
+    alert(faculty + ' ' + direction + ' ' + course + '\nКнопка загрузить');
+});
+
+$('.save_btn').click(function () {
+    let faculty = $('.faculty_input').val(),
+        direction = $('.direction_input').val(),
+        course = $('.course_input').val();
+    alert(faculty + ' ' + direction + ' ' + course + '\nКнопка сохранить');
+});
+// Кнопки навбара - конец
+
+
+
+// Кнопка добавить подгруппу (добавляет элемент li с парами перед своим родительским элементом li)
 $('.add_subgroup').click(function () {
-    console.log($(this).parent('li'));
     $(this).parent('li').before('<li>' + addPairsList(null, true) + '</li>');
     listElems = carousel.querySelectorAll('li');
 });
 
+// Функция генерирует сетку из пар и вставляет ее в переданный элемент $li, если get=false
+// И возвращает сетку из пар при get=true
 function addPairsList($li=null, get=false) {
     let pairs = '',
         lesson = '<select class="lesson">',
