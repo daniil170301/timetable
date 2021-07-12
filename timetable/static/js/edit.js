@@ -2,7 +2,8 @@
 $('#dialog').dialog({
     autoOpen: false,
     resizable: false,
-    modal: true});
+    modal: true
+});
 
 /* конфигурация */
 let width = 91; // ширина картинки
@@ -24,6 +25,7 @@ carousel.querySelector('.prev').onclick = function() {
 carousel.querySelector('.next').onclick = function() {
   // сдвиг вправо
   position -= width * count;
+  if (position < -width * (listElems.length - count)) add_subgroup();
   // последнее передвижение вправо может быть не на 3, а на 2 или 1 элемент
   position = Math.max(position, -width * (listElems.length - count));
   list.style.marginLeft = position + 'vw';
@@ -43,7 +45,9 @@ $('.create_btn').click(function () {
                     $('.faculty_input').val($('.dialog_faculty_input').val());
                     $('.direction_input').val($('.dialog_direction_input').val());
                     $('.course_input').val($('.dialog_course_input').val());
+                    $('ul').empty().append('<li></li>');
                     $(this).dialog("close");
+                    add_subgroup();
                 }},
                 {text: "Отмена", click: function() { $(this).dialog("close"); }}]
 	}).dialog('open');
@@ -88,13 +92,20 @@ $('.save_btn').click(function () {
             title: 'Сохранение',
             buttons: [
                 {text: "Да", click: function() {
-                    $.post('/edit/save/', function (data) {
-                        if (data['success'] === 'yes') {
-                            $('#dialog').empty()
+                    let data = {info: 'Тут будет расписание'}; // TODO: Написать функцию получения расписаний групп
+                    $.ajax({
+                        type: 'POST',
+                        contentType: 'application/json',
+                        url: '/edit/save/',
+                        dataType : 'json',
+                        data : JSON.stringify(data),
+                        success : function() {
+                          $('#dialog').empty()
                                 .append('<p>Расписания успешно сохранены!</p>')
                                 .dialog({title: 'Успех', buttons: []}).dialog('open');
-                        } else {
-                            $('#dialog').empty()
+                        },
+                        error : function(){
+                           $('#dialog').empty()
                                 .append('<p>Ошибка сохранения!</p>')
                                 .dialog({title: 'Ошибка', buttons: []}).dialog('open');
                         }
@@ -107,18 +118,8 @@ $('.save_btn').click(function () {
 
 
 
-// Кнопка добавить подгруппу (добавляет элемент li с парами перед своим родительским элементом li)
-$('.add_subgroup').click(function () {
-    $(this).parent('li').before('<li data-group="' + $('.dialog_group').val() +
-                              '" data-subgroup="' + $('.dialog_subgroup').val() + '">'
-                              + addPairsList(null, true) + '</li>');
-    listElems = carousel.querySelectorAll('li');
-});
-
-
-// Этот способ почему-то не работает -_-
-/*$('.add_subgroup').click(function () {
-    let $this = $(this);
+// Функция добавления группы/подгруппы (добавляет элемент li с парами в конец)
+function add_subgroup() {
     if (listElems.length < 10) {
         $('#dialog').empty()
         .append('<input class="dialog_group" type="text" placeholder="Группа">\n' +
@@ -129,8 +130,10 @@ $('.add_subgroup').click(function () {
                 {text: "Добавить", click: function() {
                     let group = $('.dialog_group').val(),
                         subgroup = $('.dialog_subgroup').val();
-                    $this.parent('li').before('<li data-group="' + group + '" data-subgroup="' + subgroup + '">' +
-                                               addPairsList(null, true) + '</li>');
+                    $('li:last').after('<li data-group="' + group + '" data-subgroup="' + subgroup + '"><form>' +
+                                        addPairsList(null, true) + '</form></li>');
+                    listElems = carousel.querySelectorAll('li');
+                    carousel.querySelector('.next').click();
                     $(this).dialog("close");
                 }},
                 {text: "Отмена", click: function() { $(this).dialog("close"); }}]
@@ -144,7 +147,7 @@ $('.add_subgroup').click(function () {
             buttons: [{text: "Ок", click: function() { $(this).dialog("close"); }}]
 	    }).dialog('open');
     }
-});*/
+}
 
 // Функция генерирует сетку из пар и вставляет ее в переданный элемент $li, если get=false
 // И возвращает сетку из пар при get=true
@@ -160,7 +163,7 @@ function addPairsList($li=null, get=false) {
                   '</div>';
 
 
-    // Добавить заполнение дропдаунов
+    // TODO: Добавить заполнение дропдаунов
     lesson += '<option value="lesson" disabled selected>Предмет</option>';
     teacher += '<option value="teacher" disabled selected>Преподаватль</option>';
     audience += '<option value="audience" disabled selected>Аудитория</option>';

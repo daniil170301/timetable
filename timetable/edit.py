@@ -15,5 +15,5 @@ def get(faculty, direction, course):
 
 @bp.route('/edit/save/', methods=['POST'])
 def save():
-    print(request)
+    print(request.get_json())
     return jsonify(success='yes')
