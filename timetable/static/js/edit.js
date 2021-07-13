@@ -92,7 +92,7 @@ $('.save_btn').click(function () {
             title: 'Сохранение',
             buttons: [
                 {text: "Да", click: function() {
-                    let data = {info: 'Тут будет расписание'}; // TODO: Написать функцию получения расписаний групп
+                    let data = getTimetables();
                     $.ajax({
                         type: 'POST',
                         contentType: 'application/json',
@@ -120,7 +120,7 @@ $('.save_btn').click(function () {
 
 // Функция добавления группы/подгруппы (добавляет элемент li с парами в конец)
 function add_subgroup() {
-    if (listElems.length < 10) {
+    if (listElems.length < 5) {
         $('#dialog').empty()
         .append('<input class="dialog_group" type="text" placeholder="Группа">\n' +
                 '<input class="dialog_subgroup" type="text" placeholder="Подгруппа">')
@@ -128,10 +128,9 @@ function add_subgroup() {
             title: 'Добавление группы',
             buttons: [
                 {text: "Добавить", click: function() {
-                    let group = $('.dialog_group').val(),
-                        subgroup = $('.dialog_subgroup').val();
-                    $('li:last').after('<li data-group="' + group + '" data-subgroup="' + subgroup + '"><form>' +
-                                        addPairsList(null, true) + '</form></li>');
+                    let info = 'data-group="' + $('.dialog_group').val() +
+                               '" data-subgroup="' + $('.dialog_subgroup').val() + '"';
+                    $('ul').append('<li>' + addPairsList(null, true, info) + '</li>');
                     listElems = carousel.querySelectorAll('li');
                     carousel.querySelector('.next').click();
                     $(this).dialog("close");
@@ -141,7 +140,7 @@ function add_subgroup() {
         listElems = carousel.querySelectorAll('li');
     } else {
         $('#dialog').empty()
-        .append('<p>Количество доступных подгрупп: 10</p>')
+        .append('<p>Количество доступных подгрупп: 5</p>')
         .dialog({
             title: 'Невозможно добавить',
             buttons: [{text: "Ок", click: function() { $(this).dialog("close"); }}]
@@ -151,7 +150,7 @@ function add_subgroup() {
 
 // Функция генерирует сетку из пар и вставляет ее в переданный элемент $li, если get=false
 // И возвращает сетку из пар при get=true
-function addPairsList($li=null, get=false) {
+function addPairsList($li=null, get=false, info) {
     let pairs = '',
         lesson = '<select class="lesson">',
         teacher = '<select class="teacher">',
@@ -171,10 +170,10 @@ function addPairsList($li=null, get=false) {
     lesson += '</select>';
     teacher += '</select>';
     audience += '</select>';
-    for (let i = 0; i < 8; i++) pairs += '<div class="pair"><div class="wrapper-cell"><div class="dropdowns-pair">' +
+    for (let i = 0; i < 8; i++) pairs += '<div class="pair"><div class="wrapper-cell"><div class="dropdowns-pair pair' + i.toString() + '">' +
         lesson + teacher + audience + '</div>' + buttons + '</div></div>';
 
-    let elements = '<div class="pairs-list"><div class="column mon">' + pairs + '</div>';
+    let elements = '<div class="pairs-list" ' + info + '><div class="column mon">' + pairs + '</div>';
     elements += '<div class="column tue">' + pairs + '</div>';
     elements += '<div class="column wed">' + pairs + '</div>';
     elements += '<div class="column thu">' + pairs + '</div>';
@@ -186,4 +185,22 @@ function addPairsList($li=null, get=false) {
     if (get) return elements;
 
     $li.append(elements);
+}
+
+
+function getTimetables() {
+    let data = {};
+    $('.pairs-list').each(function (num) {
+        let timetable = [[[],[],[],[],[],[],[],[]],[[],[],[],[],[],[],[],[]],[[],[],[],[],[],[],[],[]],[[],[],[],[],[],[],[],[]],[[],[],[],[],[],[],[],[]],[[],[],[],[],[],[],[],[]]];
+        let $this = $(this), group = $this.data('group'), subgroup = $this.data('subgroup'),
+            days = $this.find('.column');
+        $($(days)).each(function (day) {
+            $($(this).find('.pair')).each(function (pair) {
+                timetable[day][pair] = [$(this).find('.lesson').text(), $(this).find('.teacher').text(), $(this).find('.audience').text()];
+            });
+        });
+        data[num] = {group: group, subgroup: subgroup, timetable: timetable};
+    });
+
+    return data;
 }
