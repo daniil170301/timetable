@@ -174,9 +174,9 @@ input[type=text]:focus, textarea {
   border-color: #706579;
 }
 /* Цвета границ для пар разных типов*/
-.pair[value='0']{border-color:#a3d057;}
-.pair[value='1']{border-color:#248cd7;}
-.pair[value='2']{border-color:#ab676f;}
+.pair[data-type='0']{border-color:#a3d057;}
+.pair[data-type='1']{border-color:#248cd7;}
+.pair[data-type='2']{border-color:#ab676f;}
 
 .dropdowns-pair {
   display: grid;
