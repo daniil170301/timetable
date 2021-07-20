@@ -5,8 +5,8 @@ $('#dialog').dialog({
     modal: true
 });
 
-/* конфигурация */
-let width = 91; // ширина картинки
+/* конфигурация карусели */
+let width = 90; // ширина картинки
 let count = 1; // видимое количество изображений
 
 let list = carousel.querySelector('ul');
@@ -157,7 +157,7 @@ function addPairsList($li=null, get=false, info) {
         audience = '<select class="audience">',
         buttons = '<div class="buttons-pair">\n' +
                   '  <button type="button" name="delete">x</button>\n' +
-                  '  <button type="button" name="type-switch">тип</button>\n' +
+                  '  <button type="button" name="type-switch" pair_type="2" onclick="Typechange(this)">тип</button>\n' +
                   '  <button type="button" name="copy">коп</button>\n' +
                   '</div>';
 
@@ -203,4 +203,16 @@ function getTimetables() {
     });
 
     return data;
+}
+
+// Функция изменения типа пары
+function Typechange(elem) {
+  // 0 - лекция, 1 - практическое, 2 - лабораторное
+  let types = [0, 1, 2];
+  cur_type = elem.getAttribute('pair_type');
+  cur_type = types[(cur_type+1)%3];
+  elem.setAttribute('pair_type', cur_type);
+  console.log(cur_type);
+  pair = elem.parentNode.parentNode.parentNode; //меняем тип пары элементу pair
+  pair.setAttribute('value', cur_type);
 }
